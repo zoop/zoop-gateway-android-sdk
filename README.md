@@ -715,4 +715,124 @@ Also the responses incase of successful transaction as well as response in case 
 |response_message| if transaction is successful then value is 'Transaction Successful' otherwise there should be an error message|
 |payload| if there is success payload data then it is not null otherwise it is always null|
 
+### 7. WEBHOOK
+
+The webhook response will be received to the webhook_url provided in the initialization call. When receiving the webhook response please match the webhook_security_key in the header of the request to be the same as the one provided in the init call. **If they are not the same you must abandon the webhook response**.
+
+#### 7.1 SUCCESSFUL REQUEST BODY
+
+    {
+      "id": "b5245253-425c-4291-8ea7-5760f5ecd86a",
+      "mode": "REDIRECT",
+      "env": "PREPROD",
+      "bank": "YESBANK",
+      "response_code": 100,
+      "response_message": "Transaction Successful",
+      "last_user_stage_code": 10,
+      "last_user_stage": "parse_statement",
+      "request_version": "1.0",
+      "data": {
+        "metadata": {
+          "acc_number": "<<account_number>> ",
+          "start_date": "09/01/2019",
+          "end_date": "08/01/2020"
+        },
+        "transactions": [
+          {
+            "date": "2019-03-17",
+            "value_date": "2019-03-17",
+            "chq": "",
+            "particulars": "Details About the transaction",
+            "balance": 100,
+            "amount": 100,
+            "label": "CREDIT",
+            "validation": true
+          }
+        ]
+      }
+    }
+#### 7.2 FAILURE REQUEST BODY
+
+    {
+      "id": "b5245253-425c-4291-8ea7-5760f5ecd86a",
+      "mode": "REDIRECT",
+      "env": "PREPROD",
+      "bank": "YESBANK",
+      "response_code": 100,
+      "response_message": "Transaction Successful",
+      "last_user_stage_code": 10,
+      "last_user_stage": "parse_statement",
+      "request_version": "1.0",
+      "error": {
+        “code”: <<error_code>>,
+        “Message”: <<error_message>>
+      }
+    }
+    
+#### 7.3 ERROR CODES AND MESSAGES
+
+651: 'Technical Error',
+
+652: 'Session Closed Error',
+
+653: 'Bank Server Unresponsive Error',
+
+654: 'Consent Denied Error',
+
+655: 'Document Parsing Error',
+
+656: 'Validity Expiry Error',
+
+657: 'Authentication Error'
+
+### 8. STAGE
+
+After creating an initialization request successfully you can check at which stage your transaction is currently.
+
+    GET: {{base_url}}/bsa/v1/stage/<<transaction_id>>
+
+#### 8.1 SUCCESSFUL RESPONSE BODY
+
+    {
+        "id": "24f575ad-c706-477c-9618-8f079b5c985c",
+        "mode": "REDIRECT",
+        "env": "PREPROD",
+        "request_version": "1.0",
+        "bank": "YESBANK",
+        "last_user_stage": "transaction_initiated",
+        “last_user_stage_code": 11
+    }
+    
+#### 8.2 USER STAGES
+
+
+|Stage Code| Stage Message|
+|----|----|
+|-1 |failed_stage|
+|0| get_login_page|
+|1| crawl_after_credentials|
+|2| crawl_after_acc_select|
+|3| crawl_after_captcha1|
+|4| crawl_after_captcha2|
+|5| crawl_after_answer|
+|6| crawl_after_otp|
+|7| crawl_after_credentials_captcha1|
+|10| parse_statement|
+|11| transaction_initiated|
+
+#### 8.3 FAILURE RESPONSE BODY
+
+    {
+        "statusCode": 404,
+        "errors": [],
+        "message": "transaction id not found in our records"
+    }
+
+
+
+    
+
+
+
+
 
