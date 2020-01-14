@@ -9,6 +9,7 @@ The mode of transaction can be following:
 1. Aadhaar Number + OTP (works only on web and android)
 2. Aadhaar Number + Fingerprint (works only on windows machine and android)
 3. Aadhaar Number + IRIS (works only on Samsung IRIS tablet) 
+
 This solves the problem of wet signing of documents, which is a costly and time-consuming
 process. Aadhaar based E-sign is a valid and legal signature as per government regulations and is
 accepted widely across India by various organisations.
@@ -194,3 +195,335 @@ Also the responses incase of successful transaction as well as response in case 
       }
     }
  
+### 6. RESPONSE FORMAT SENT ON MOBILE 
+#### 6.1 SUCCESS JSON RESPONSE FORMAT FOR E-SIGN SUCCESS
+    { "id": “<<transaction_Id>>",
+    "response_timestamp": "2018-08-01T09:50:06.831Z",
+    "transaction_status": 16,
+    "signer_consent": "Y",
+    "request_medium": “ANDROID",
+    "last_document": “true",
+    "current_document": 1,
+    "documents": [
+    { "id": “<<unique-document-id >>”,
+     "index": 1,
+     "type": “pdf",
+     "doc_info": "Sample pdf - sample doc",
+     "dynamic_url": “<<links-to-download-document>>”,
+     "sign_status": "Y",
+     "auth_mode": "O",
+     "response_status": "Y",
+     "error_code": null,
+     "error_message": null,
+     "request_timestamp": “2018-08-01T09:50:06.831Z” }, ….
+    ], "dynamic_url": “<<links-to-download-document>>”,
+     "msg": “<<Esign Message from ESP/Internal>>” }
+     
+| Response Parameter  | Description/Possible Values |
+| ------------- | ------------- |
+| id | E-sign Transaction Id  |
+| response_timestamp | ESP response timestamp |
+| transaction_status | Status Code to track last transaction state. List of codes available in Annexure1. |
+| signer_consent | Y/N - Will be N if user denies consent |
+| request_medium | WEB/ANDROID - Platform from which esign transaction was performed |
+| last_document | true/false- true if document is last else false |
+| documents[ | Is an object that provides details of the single/multiple documents in array. It has below mentioned values in the object|
+| { id | Document id |
+| index | Index of this document |
+| doc_info | Info of this document |
+| type | Format of the document. For now, only value pdf is supported |
+| dynamic_url | Url to download the signed pdf |
+| sign_status | Y/N - if document is signed by the user or not |
+| auth_mode | O/F/I – OTP, Fingerprint, Iris |
+| response_status | Y/N - if ESP response was success or not. |
+| error_code | Error code from ESP/Internal (available only in case of error) |
+| error_message | Error message from ESP/Internal (available only in case of error) |
+| request_timestamp } | Time at which the request was sent to ESP |
+| ] dynamic_url | Url to download the signed pdf of the current document |
+| message | Message from ESP/Internal |
+
+
+#### 6.2 ERROR JSON RESPONSE FORMAT FOR E_SIGN ERROR 
+    { "id": “<<transaction id>>",
+    "signer_name": “Abc Name",
+    "signer_city": “xyz city",
+    "current_document": 1,
+    "user_notified": "N",
+    "purpose": "Development and testing purpose",
+    "transaction_status": 17,
+    "signer_consent": "Y",
+    "request_medium": "ANDROID",
+    "signed_document_count": 0,
+    "error_code": "ESP-123",
+    "error_message": “<<Error Message>>","response_status": "N",
+    "response_timestamp": “2018-08-01T12:09:48.500Z”,
+    "msg": "Error Code :ESP-123 (<<Error Message>>)” } 
+    
+|Response Parameter| Description/Possible Values|
+| ------------- | ------------- |
+|id |E-sign Transaction Id|
+|signer_name| Name of signer as provided in INIT call.|
+|signer_city| City of signer as provided in INIT call.|
+|current_document| Current document number|
+|signer_consent| Y/N - Will be N if user denies consent|
+|request_medium |WEB/ANDROID - Platform from which esign transaction was performed|
+|Purpose| Purpose for signing the document |
+|user_notified| Y/N - User notified of the E-sign success and sent a copy of document to download.|
+|transaction_status| Status Code to track last transaction state. List of codes available in Annexure1.|
+|signed_document_count| count of the number of documents signed|
+|response_status| Y/N - if ESP response was success or not.|
+|error_code| Error code from ESP/Internal (available only in case of error)|
+|error_message| Error message from ESP/Internal (available only in case of error)|
+|response_timestamp| ESP response timestamp.|
+|msg|Error code and error message|
+
+### Annexure 1 – Transaction Status
+
+INITIATED : 1,
+
+INITIATION_FAILED: 2,
+
+OTP_SENT: 3,
+
+OTP_FAILED: 4,
+
+SUCCESSFUL: 5,
+
+FAILED: 6,
+
+OTP_MISMATCH: 7,
+
+FP_MISMATCH: 8,
+
+EXPIRED: 9,
+
+CONSENT_DENIED: 10,
+
+TERMINATED_BY_USER: 11,
+
+OTP_REQUEST_LIMIT_CROSSED: 12,
+
+OTP_FAILURE_LIMIT_CROSSED: 20,
+
+OTP_EXPIRED: 13,
+
+LOGIN_SUCCESS: 14,
+
+ESP_REQ_INITIATED: 15,
+
+ESP_REQ_SUCCESS: 16,
+
+ESP_REQ_FAILED: 17,
+
+USER_NOTIFIED: 18,
+
+TRANSACTION_LIMIT_CROSSED: 19 
+
+#### 6.3 ERROR JSON RESPONSE FORMAT FOR GATEWAY ERROR 
+    {"statusCode": 422,
+     "message": "Maximum OTP Tries Reached, Transaction Failed” } 
+|Response Parameter| Description/Possible Values|
+| ---------- | ----------- |
+|statusCode| Error code from gateway/sdk|
+|message| Error message from gateway/sdk|
+
+### 7. RESPONSE FORMAT SENT ON RESPONSE_URL(ADDED IN INIT API CALL)
+#### 7.1 SUCCESS JSON RESPONSE FORMAT FOR E-SIGN SUCCESS
+    {
+    "id": “<<transaction_Id>>",
+    "response_timestamp": "2018-08-01T09:50:06.831Z",
+    "transaction_status": 16,
+    "signer_consent": "Y",
+    "request_medium": “M",
+    "last_document": “true",
+    "current_document": 1,
+    "documents": [
+     { "id": “<<unique-document-id >>”,
+       "index": 1,
+       "type": “pdf",
+       "doc_info": "Sample pdf - sample doc",
+       "dynamic_url": “<<links-to-download-document>>”,
+       "sign_status": "Y",
+       "auth_mode": "O",
+       "response_status": "Y",
+       "error_code": null,
+       "error_message": null,
+       "request_timestamp": “2018-08-01T09:50:06.831Z"
+     }, ….]
+    } 
+|Response| Parameter Description/Possible Values|
+|------|-----|
+|id| E-sign Transaction Id|
+|response_timestamp| ESP response timestamp.|
+|transaction_status| Status Code to track last transaction state. List of codes available in Annexure1.|
+|signer_consent| Y/N - Will be N if user denies consent|
+|request_medium| W for WEB/ M for Mobile - Platform from which esign transaction was performed|
+|last_document| true/false- true if document is last else false|
+|documents [| Is an object that provides details of the single/multiple documents in array. It has below mentioned values in the object|
+|{ id| Document id|
+|index| Index of this document|
+|doc_info| Info of this document
+|type| Format of the document. For now, only value pdf is supported|
+|dynamic_url |Url to download the signed pdf|
+|sign_status| Y/N - if document is signed by the user or not|
+|auth_mode| O/F/I – OTP, Fingerprint, Iris|
+|response_status| Y/N - if ESP response was success or not.|
+|error_message| Error message from ESP/Internal (available only in case of error)|
+|request_timestamp }| Time at which the request was sent to ESP|
+|]|  |
+
+#### 7.2 ERROR JSON RESPONSE FORMAT FOR E_SIGN ERROR 
+    { "id": “<<transaction_Id>>", "response_timestamp":
+    "2018-08-03T09:14:21.805Z", "transaction_status":
+    17,
+    "signer_consent": "Y",
+    "request_medium": "M",
+    "current_document": 1,
+    "documents": [
+      { "id": “<<unique-document-id >>”,
+       "index": 1,
+       "doc_info": "Sample pdf - sample doc",
+       "type": "pdf",
+       "dynamic_url": “<<links-to-download-document>>”,
+       "sign_status": "N",
+       "auth_mode": "O",
+       "response_status": "N",
+       "error_code": “<<Error code if
+       any>>”,
+       "error_message": “<<Error message if any>>”,
+       "request_timestamp":
+       "2018-08-03T09:14:21.805Z"
+       } ]…
+    }
+|Response| Parameter Description/Possible Values|
+|-----|-----|
+|id| E-sign Transaction Id|
+|response_timestamp| ESP response timestamp.|
+|current_document| Current document number|
+|signer_consent| Y/N - Will be N if user denies consent|
+|request_medium| WEB/ANDROID - Platform from which esign transaction was performed|
+|transaction_status| Status Code to track last transaction state. List of codes available in Annexure1.|
+|documents [| Is an object that provides details of the single/multiple documents in array. It has below mentioned values in the object|
+|{ id| Document id|
+|index|Index of this document|
+|doc_info|Info of this document|
+|type| Format of the document. For now, only value pdf is supported|
+|dynamic_url| Url to download the signed pdf|
+|sign_status| Y/N - if document is signed by the user or not|
+|auth_mode| O/F/I – OTP, Fingerprint, Iris|
+|response_status| Y/N - if ESP response was success or not.|
+|error_code| Error code from ESP/Internal (available only in case of error)|
+|error_message| Error message from ESP/Internal (available only in case of error)|
+|request_timestamp }| Time at which the request was sent to ESP|
+|]|    |
+    
+### 8. BIOMETRIC DEVICES SETUP 
+
+For bio transactions UIDAI has made use of RD service mandatory and all devices has to be
+registered with device vendor’s RD management server before performing biometric based
+transactions. Also for devices to work in windows RD services has to be setup in the
+windows machine and for Android devices to work, RD service APPs has to be installed from
+Play-store from specific device vendors.
+
+In order to perform the E-sign transaction via biometric modes (i.e. Fingerprint and Iris).
+
+The device must be registered with their respective device vendor’s RD management server
+and Application from play store or SDK provided by some device vendor(provided incase of
+some iris devices) must be installed in your Android Device before performing E-sign
+transaction through biometric mode.
+
+In case of RD service not working with the Demo apps. please contact the device vendor
+support team. Once these demo apps are working. You will be able to use these devices with
+our SDKs. 
+
+#### List of supported Biometric Devices
+### 9. PULLING TRANSACTION STATUS AT BACKEND 
+
+In case the response JSON is lost at frontend, there is an option to pull the transaction status from
+backend using the same Esign Transaction Id. 
+#### 9.1 URL
+    GET {{base_url}}/gateway/esign/:esign_transaction_id/fetch/ 
+#### 9.2 RESPONSE PARAMS:
+|Sr. No.| Device Manufacturer| Model|
+|----|----|----|
+|1|Morpho| MSO 1300 E; MSO 1300 E2; MSO 1300 E3|
+|2|Secugen| Hamster Pro HU20|
+|3|Mantra| %MFS100 |
+|4|Startek| FM220U|
+|5| Evolute| Falcon Identi5 Leopard|
+|6| Cogent| CSD 200|
+|7| Precision| PB510|
+|8| Freedom| ABB-100-NIR|
+|9| Samsung Galaxy IRIS Tab| SM-T116IR|
+
+    {
+    "id": “<<transaction id>>",
+    "request_version": "2.0",
+    "signer_consent": "Y",
+    "response_url": "<<POST[REST] URL to which response is to be sent after the transaction is
+    complete>>",
+    "current_document": 1,
+    "signed_document_count": 1,
+    "public_ip": "223.196.31.21",
+    "env": 1,
+    "signer_name": "Demo Name",
+    "signer_city": "Demo City",
+    "purpose": "Development and testing purpose",
+    "transaction_status": 5,
+    "request_medium": "M",
+    "transaction_attempts": 1,
+    "otp_attempts": 1,
+    "otp_failures": 0,
+    "user_notified": "Y", 
+    "response_to_agency": "Y",
+    "createdAt": "2018-08-03T08:43:39.751Z",
+    "documents": [
+      {
+       "id": “<<document id>>",
+       "index": 1,
+       "doc_info": "Sample pdf - sample doc",
+       "type": "pdf",
+       "dynamic_url": “<<Link to download this pdf>>",
+       "sign_status": "Y",
+       "auth_mode": "O",
+       "response_status": "Y",
+       "error_code": “<<error code if any>>”,
+       "error_message": “<<error message if any>>”,
+       "request_timestamp": “2018-08-03T08:47:50.661Z"
+      }
+     ]
+    }
+|Response Parameter| Description/Possible Values|
+|----|----|
+|id| E-sign Transaction Id|
+|request_version| Esign version – currently 2.0|
+|signer_consent| Y/N - Will be N if user denies consent|
+|signed_document_count| count of the number of documents signed|
+|response_url| URL to which the response was sent on completion|
+|current_document| Current document number}
+|request_medium| W for Web/ M for Mobile - Platform from which esign transaction was performed|
+|public_ip| End user IP using which the transaction was performed.|
+|env| 1/2 – 1(preproduction) & 2 (production)|
+|signer_name| Name of signer as provided in INIT call.|
+|purpose| Purpose for signing the document|
+|signer_city| City of signer as provided in INIT call.|
+|transaction_status| Status Code to track last transaction state. List of codes available in Annexure1.|
+|transaction_attempts| Transaction attempt count. Currently allowed only once.|
+|otp_attempts| Number of times login OTP was requested|
+|otp_failures| Number of times login failed due to wrong OTP|
+|user_notified| Y/N - User notified of the E-sign success and sent a copy of document to download.|
+|response_to_agency| Y/N - Response sent to responseURL was success or failure.|
+|createdAt| Transaction initiated at - YYYY-MM-DDTHH:MM:SS.122Z|
+|documents[| Is an object that provides details of the single/multiple documents in array. It has below mentioned values in the object|
+|{ id|Document id|
+|index|Index of document|
+|doc_info|Info of the document|
+|type| Format of the document. For now, only value pdf is supported|
+|dynamic_url| Url to download the signed pdf|
+|sign_status| Y/N - if document is signed by the user or not|
+|auth_mode| O/F/I – OTP, Fingerprint, Iris|
+|response_status| Y/N - if ESP response was success or not.|
+|error_code| Error code from ESP/Internal (available only in case of error)|
+|error_message| Error message from ESP/Internal (available only in case of error)|
+|request_timestamp } ,.. ]| Time at which the request was sent to ESP|
+    
