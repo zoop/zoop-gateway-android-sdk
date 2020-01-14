@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">SampleApp</string>
     <string name="sdk_result">SDK Result: </string>
+    <!--esign sdk params-->
+    <string name="qt_otp_access">y</string>
+    <string name="qt_fp_access">y</string>
+    <string name="qt_iris_access">y</string>
+    <string name="qt_phone_auth_access">y</string>
+    <string name="qt_draggable">y</string>
 </resources>

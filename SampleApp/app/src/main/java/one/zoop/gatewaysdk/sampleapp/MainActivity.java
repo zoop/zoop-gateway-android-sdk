@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                 if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
                     gatewayId = etGatewayId.getText().toString();
                 } else {
-                    gatewayId = "2c00b9af-1894-4042-8ba8-6d4a8ad745ea";
+                    gatewayId = "1979c1d7-5601-40d1-9186-f9d85ae6b99b";
                 }
 
                 Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
                     gatewayId = etGatewayId.getText().toString();
                 } else {
-                    gatewayId = "cc82cbca-5331-4485-85f3-ab104b6ff953";
+                    gatewayId = "81a506dd-ef5a-4b70-8197-4fcd5620def5";
                 }
 
                 Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
@@ -121,13 +121,13 @@ public class MainActivity extends AppCompatActivity {
             } else if (requestType.equalsIgnoreCase(BSA.getRequest())) {
                 if (resultCode == BSA_SUCCESS) {
                     String responseString = data.getStringExtra(QT_RESULT);
-                    //handle success for esign
+                    //handle success for bsa
                     tvResult.setText(responseString);
                     Log.d("SDK test result bsa", requestType + " res " + responseString);
                 }
                 if (resultCode == BSA_ERROR) {
                     String errorString = data.getStringExtra(QT_RESULT);
-                    //handle error for esign
+                    //handle error for bsa
                     tvResult.setText(errorString);
                     Log.d("SDK test error bsa", requestType + " err " + errorString);
                 }
