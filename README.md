@@ -1,5 +1,6 @@
 # zoop-gateway-android-sdk
 AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
+
 ## AadhaarAPI E-Sign Gateway 
 ### 1. INTRODUCTION
 As a registered ASP under ESP AadhaarAPI provide WEB and Mobile gateway for E-signing of
@@ -42,7 +43,7 @@ generate a **Gateway Transaction Id** which needs to be passed to the frontend w
 the gateway.
 
 #### 3.1 INIT URL: 
-URL: POST {{base_url}}/gateway/esign/init/
+    URL: POST {{base_url}}/gateway/esign/init/
 #### BASE URL:
  **For Pre-Production Environment:** https://preprod.aadhaarapi.com
  
@@ -115,7 +116,8 @@ module as a dependency.
 #### 5.1  IMPORT FILES 
 
 Import following files in your Activity:
-
+    
+    import one.zoop.sdkesign.esignlib.qtActivity.QTApiActivity;
     import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ESIGN_ERROR;
     import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ESIGN_SUCCESS;
     import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_EMAIL;
@@ -527,3 +529,190 @@ backend using the same Esign Transaction Id.
 |error_message| Error message from ESP/Internal (available only in case of error)|
 |request_timestamp } ,.. ]| Time at which the request was sent to ESP|
     
+
+## AadhaarAPI Bank Statement Analysis(BSA) Gateway 
+
+### 1. INTRODUCTION 
+TODO -
+
+### 2. PROCESS FLOW
+1. At your backend server, Initiate the BSA transaction using a simple Rest API [POST] call. Details of these are available in the documents later. You will require API key and Agency Id for accessing this API which can be generated from the Dashboard.
+2. This gateway transaction id then needs to be communicated back to the frontend(in Android Project) where SDK is to be called.
+3. After adding the SDK (.aar file) in your android project, client has to pass the above generated transaction id to an SDK Intent Function, which will open the SDK.
+4. SDK will open with a user login after which and the rest of the process till response will be handled by the gateway itself.
+5. Once the transaction is successful or failed, appropriate handler function will be called with response JSON, that can be used by the client to process the flow further. 
+6. Client will also have a REST API available to pull the status of a gateway transaction from backend. 
+
+### 3. INITIATING A GATEWAY TRANSACTION
+
+To initiate a gateway transaction a REST API call has to be made to backend. This call will generate a Gateway Transaction Id which needs to be passed to the frontend web-sdk to launch the gateway. 
+
+#### 3.1 INIT URL: 
+    URL: POST: {{base_url}}/bsa/v1/init
+    
+#### BASE URL:
+ **For Pre-Production Environment:** https://preprod.aadhaarapi.com
+ 
+ **For Production Environment:** https://prod.aadhaarapi.com
+ 
+ **Example Url:** https://preprod.aadhaarapi.com//bsa/v1/init
+ 
+#### 3.2 REQUEST HEADERS: [All Mandatory]
+  QT_API_KEY: <<your api key value – available via Dashboard>>
+  
+  QT_AGENCY_ID: <<your agency id value – available via Dashboard>>
+  
+  Content-Type: application/json
+  
+#### 3.3 REQUEST BODY PARAMS: 
+    {
+    "mode": "REDIRECT",
+    "redirect_url": "https://yourdomain.com",
+    "webhook_url": "https://yourdomain.com/webhook",
+    "purpose": "load agreement",
+    "bank": "YESBANK",
+    "months": 3
+    }
+|Parameters| Required| Description/Value|
+|----|----|----|
+|mode| true| REDIRECT or POPUP|
+|redirect_url| true |A valid URL|
+|webhook_url| true| A valid URL|
+|purpose| true| Your purpose|
+|bank| false| ICICI or YESBANK or HDFC or SBI or AXIS or KOTAK or SC|
+|months| false| 1 - 12|
+
+Currently, supported banks are ICICI, YES BANK, HDFC, STATE BANK OF INDIA, AXIS, KOTAK, STANDARD CHARTERED.
+
+#### 3.4 RESPONSE PARAMS:
+##### 3.4.1 Successful Response:
+    {  
+       "id": "2f9a95d3-894d-43cb-af99-0903ca22370e",
+       "mode": "REDIRECT",
+       "env": "PREPROD",
+       "webhook_security_key": "f1640156-0b38-41da-ab78-a6d1e2ba91ca",
+       "request_version": "1.0",
+       "request_timestamp": "2020-01-13T13:31:16.941Z",
+       "expires_at": "2020-01-13T13:41:16.941Z"
+    }
+    
+After successful creating of transaction proceed to https://bsa.aadhaarapi.com?session_id=<<transaction_id>>
+
+The above generated gateway transactionId has to be made available in your android project to
+open the BSA SDK.
+
+**Note:** A transaction is valid only for 30 mins after generation. 
+    
+##### 3.4.2 Failure Response:   
+    {
+        "statusCode": 400,
+        "errors": [],
+        "message": "<<message about the error>>"
+    }
+
+### 4.ADDING SDK (.AAR FILE) TO YOUR PROJECT
+
+To add SDK file as library in your Project, Perform the following Steps:
+1. Right click on your project and choose “Open Module Settings”.
+2. Click the “+” button in the top left to add a new module.
+3. Choose “Import .JAR or .AAR Package” and click the “Next” button.
+4. Find the AAR file using the ellipsis button (“…”) beside the “File name” field.
+5. Keep the app’s module selected and click on the Dependencies pane to add the new module as a dependency.
+6. Use the “+” button of the dependencies screen and choose “Module dependency”.
+7. Choose the module and click “OK”.
+
+### 5. CONFIGURING AND LAUNCHING THE BSA SDK 
+#### 5.1 IMPORT FILES
+
+    import one.zoop.sdkesign.esignlib.qtActivity.QTApiActivity;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.BSA_ERROR;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.BSA_SUCCESS;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_ENV;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_RESULT;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.REQUEST_API;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.SDK_ERROR;
+    import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.BSA;
+    
+#### 5.2 CALL BSA SDK FROM THE ACTIVITY
+Use the Intent Function to call the E-Sign SDK from your Activity as shown below: 
+
+    String gatewayId, environment;
+    Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
+    gatewayIntent.putExtra(QT_TRANSACTION_ID, gatewayId);
+    gatewayIntent.putExtra(QT_ENV, environment);
+    gatewayIntent.putExtra(QT_REQUEST_TYPE, BSA.getRequest());
+    startActivityForResult(gatewayIntent, REQUEST_API);
+    
+Params:
+
+GatewayId: “Transaction Id generated from your backend must be passed here”
+
+Email: “Add your end user’s email here to pre-fill the login box”
+
+environment: for pre-prod use "QT_PP" and for prod use "QT_P"
+
+Set the QT_REQUEST_TYPE as BSA.getRequest() for bsa based transaction.
+
+Example:
+
+GatewayId = "a051231e-ddc7-449d-8635-bb823485a20d";
+
+Email = “youremail@gmail.com";
+
+environment = "QT_PP";
+
+#### 5.3 HANDLE SDK RESPONSE 
+
+After performing a Successful Transaction: Bank Statement of user will be downloaded 
+
+Also the responses incase of successful transaction as well as response in case of error will be sent to your activity & can be handled via onActivityResult( ) method as shown below.
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+      if (requestCode == REQUEST_API && null != data) {
+        String requestType = data.getStringExtra(QT_REQUEST_TYPE);
+      if(requestType.equalsIgnoreCase(BSA.getRequest())){
+        //To handle the Success JSON response from SDK
+      if (resultCode == BSA_SUCCESS) {
+        String responseString = data.getStringExtra(QT_RESULT); //handle
+        successful response from AadhaarAPI’s BSA SDK here
+        Log.i("SDK test response ", serviceType + " response: " +responseString); // can be removed
+        }
+        // To handle the Error JSON response from SDK 
+      if (resultCode == BSA_ERROR) {
+       String errorString = data.getStringExtra(QT_RESULT); //handle
+        error response from AadhaarAPI’s BSA SDK here
+        Log.i("SDK test error ", serviceType + " error: "+ errorString); // can be removed
+        }
+      }
+    }
+    
+### 6. RESPONSE FORMAT SENT ON MOBILE
+#### 6.1 SUCCESS JSON RESPONSE FORMAT FOR BSA SUCCESS 
+    {   
+        response_code: "SUCCESS"
+        response_message: "Transaction Successful"
+        payload: { //success data here if any otherwise null}
+    }
+#### 6.2 ERROR JSON RESPONSE FORMAT FOR BSA ERROR
+    {   
+        response_code: "OTP_ATTEMPT_EXPIRED"
+        response_message: "All attempts for otp expired."
+        payload: null
+    }
+#### 6.3 GATEWAY ERROR
+    {   
+        response_code: "SESSION_EXPIRED"
+        response_message: "Session key is expired"
+        payload: null
+    }
+
+|Response Parameter| Description/Possible Values|
+|----|----|
+|response_code| if transaction is successful then value is 'SUCCESS' otherwise there should be an error code|
+|response_message| if transaction is successful then value is 'Transaction Successful' otherwise there should be an error message|
+|payload| if there is success payload data then it is not null otherwise it is always null|
+
+
