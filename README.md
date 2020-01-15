@@ -736,8 +736,6 @@ Params:
 
 GatewayId: “Transaction Id generated from your backend must be passed here”
 
-Email: “Add your end user’s email here to pre-fill the login box”
-
 environment: for pre-prod use "QT_PP" and for prod use "QT_P"
 
 Set the QT_REQUEST_TYPE as BSA.getRequest() for bsa based transaction.
@@ -745,8 +743,6 @@ Set the QT_REQUEST_TYPE as BSA.getRequest() for bsa based transaction.
 Example:
 
 GatewayId = "a051231e-ddc7-449d-8635-bb823485a20d";
-
-Email = “youremail@gmail.com";
 
 environment = "QT_PP";
 
