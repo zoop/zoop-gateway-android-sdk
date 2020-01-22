@@ -635,7 +635,7 @@ To initiate a gateway transaction a REST API call has to be made to backend. Thi
  
  **For Production Environment:** https://prod.aadhaarapi.com
  
- **Example Url:** https://preprod.aadhaarapi.com//bsa/v1/init
+ **Example Url:** https://preprod.aadhaarapi.com/bsa/v1/init
 
 <a name="bsaRequestHeader"></a>
 #### 3.2 REQUEST HEADERS: [All Mandatory]
