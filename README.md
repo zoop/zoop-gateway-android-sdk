@@ -686,7 +686,7 @@ After successful creating of transaction proceed to https://bsa.aadhaarapi.com?s
 The above generated gateway transactionId has to be made available in your android project to
 open the BSA SDK.
 
-**Note:** A transaction is valid only for 30 mins after generation. 
+**Note:** A transaction is valid only for 10 mins after generation. Please check the **webhook_security_key** when receiving any response on the webhook. If the keys didn’t match then **don’t proceed** with the request.
     
 ##### 3.4.2 Failure Response:   
     {
