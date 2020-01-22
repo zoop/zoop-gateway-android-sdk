@@ -639,10 +639,11 @@ To initiate a gateway transaction a REST API call has to be made to backend. Thi
 
 <a name="bsaRequestHeader"></a>
 #### 3.2 REQUEST HEADERS: [All Mandatory]
-  QT_API_KEY: <<your api key value – available via Dashboard>>
-  
-  QT_AGENCY_ID: <<your agency id value – available via Dashboard>>
-  
+
+ **qt_api_key** -- API key generated via Dashboard (PREPROD and PROD)
+ 
+ **qt_agency_id** -- Agency ID available from My account section in Dashboard
+ 
   Content-Type: application/json
 
 <a name="bsaRequestBody"></a>
@@ -669,16 +670,17 @@ Currently, supported banks are ICICI, YES BANK, HDFC, STATE BANK OF INDIA, AXIS,
 <a name="bsaRespParam"></a>
 #### 3.4 RESPONSE PARAMS:
 ##### 3.4.1 Successful Response:
-    {  
-       "id": "2f9a95d3-894d-43cb-af99-0903ca22370e",
-       "mode": "REDIRECT",
-       "env": "PREPROD",
-       "webhook_security_key": "f1640156-0b38-41da-ab78-a6d1e2ba91ca",
-       "request_version": "1.0",
-       "request_timestamp": "2020-01-13T13:31:16.941Z",
-       "expires_at": "2020-01-13T13:41:16.941Z"
-    }
-    
+  
+      {
+          "id": "<<transaction_id>>",
+          "mode": "REDIRECT",
+          "env": "PREPROD",
+          "webhook_security_key": "<<UUID>>",
+          "request_version": "1.0",
+          "request_timestamp": "2020-01-13T13:31:16.941Z",
+          "expires_at": "2020-01-13T13:41:16.941Z"
+      }    
+      
 After successful creating of transaction proceed to https://bsa.aadhaarapi.com?session_id=<<transaction_id>>
 
 The above generated gateway transactionId has to be made available in your android project to
