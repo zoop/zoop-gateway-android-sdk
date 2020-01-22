@@ -102,7 +102,7 @@ the gateway.
 <a name="esignInitUrl"></a>
 #### 3.1 INIT URL: 
     URL: POST {{base_url}}/gateway/esign/init/
-#### BASE URL:
+ **{{base_url}}**
  **For Pre-Production Environment:** https://preprod.aadhaarapi.com
  
  **For Production Environment:** https://prod.aadhaarapi.com
@@ -630,7 +630,7 @@ To initiate a gateway transaction a REST API call has to be made to backend. Thi
 #### 3.1 INIT URL: 
     URL: POST: {{base_url}}/bsa/v1/init
     
-#### BASE URL:
+ **{{base_url}}**:
  **For Pre-Production Environment:** https://preprod.aadhaarapi.com
  
  **For Production Environment:** https://prod.aadhaarapi.com
