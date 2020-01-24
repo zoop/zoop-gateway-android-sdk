@@ -102,7 +102,8 @@ the gateway.
 <a name="esignInitUrl"></a>
 #### 3.1 INIT URL: 
     URL: POST {{base_url}}/gateway/esign/init/
-#### BASE URL:
+ **{{base_url}}**
+ 
  **For Pre-Production Environment:** https://preprod.aadhaarapi.com
  
  **For Production Environment:** https://prod.aadhaarapi.com
@@ -630,19 +631,21 @@ To initiate a gateway transaction a REST API call has to be made to backend. Thi
 #### 3.1 INIT URL: 
     URL: POST: {{base_url}}/bsa/v1/init
     
-#### BASE URL:
+ **{{base_url}}**:
+ 
  **For Pre-Production Environment:** https://preprod.aadhaarapi.com
  
  **For Production Environment:** https://prod.aadhaarapi.com
  
- **Example Url:** https://preprod.aadhaarapi.com//bsa/v1/init
+ **Example Url:** https://preprod.aadhaarapi.com/bsa/v1/init
 
 <a name="bsaRequestHeader"></a>
 #### 3.2 REQUEST HEADERS: [All Mandatory]
-  QT_API_KEY: <<your api key value – available via Dashboard>>
-  
-  QT_AGENCY_ID: <<your agency id value – available via Dashboard>>
-  
+
+ **qt_api_key** -- API key generated via Dashboard (PREPROD and PROD)
+ 
+ **qt_agency_id** -- Agency ID available from My account section in Dashboard
+ 
   Content-Type: application/json
 
 <a name="bsaRequestBody"></a>
@@ -669,22 +672,23 @@ Currently, supported banks are ICICI, YES BANK, HDFC, STATE BANK OF INDIA, AXIS,
 <a name="bsaRespParam"></a>
 #### 3.4 RESPONSE PARAMS:
 ##### 3.4.1 Successful Response:
-    {  
-       "id": "2f9a95d3-894d-43cb-af99-0903ca22370e",
-       "mode": "REDIRECT",
-       "env": "PREPROD",
-       "webhook_security_key": "f1640156-0b38-41da-ab78-a6d1e2ba91ca",
-       "request_version": "1.0",
-       "request_timestamp": "2020-01-13T13:31:16.941Z",
-       "expires_at": "2020-01-13T13:41:16.941Z"
-    }
-    
+  
+      {
+          "id": "<<transaction_id>>",
+          "mode": "REDIRECT",
+          "env": "PREPROD",
+          "webhook_security_key": "<<UUID>>",
+          "request_version": "1.0",
+          "request_timestamp": "2020-01-13T13:31:16.941Z",
+          "expires_at": "2020-01-13T13:41:16.941Z"
+      }    
+      
 After successful creating of transaction proceed to https://bsa.aadhaarapi.com?session_id=<<transaction_id>>
 
 The above generated gateway transactionId has to be made available in your android project to
 open the BSA SDK.
 
-**Note:** A transaction is valid only for 30 mins after generation. 
+**Note:** A transaction is valid only for 10 mins after generation. Please check the **webhook_security_key** when receiving any response on the webhook. If the keys didn’t match then **don’t proceed** with the request.
     
 ##### 3.4.2 Failure Response:   
     {
@@ -736,8 +740,6 @@ Params:
 
 GatewayId: “Transaction Id generated from your backend must be passed here”
 
-Email: “Add your end user’s email here to pre-fill the login box”
-
 environment: for pre-prod use "QT_PP" and for prod use "QT_P"
 
 Set the QT_REQUEST_TYPE as BSA.getRequest() for bsa based transaction.
@@ -745,8 +747,6 @@ Set the QT_REQUEST_TYPE as BSA.getRequest() for bsa based transaction.
 Example:
 
 GatewayId = "a051231e-ddc7-449d-8635-bb823485a20d";
-
-Email = “youremail@gmail.com";
 
 environment = "QT_PP";
 
