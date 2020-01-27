@@ -611,7 +611,8 @@ backend using the same Esign Transaction Id.
 
 <a name="bsaIntro"></a>
 ### 1. INTRODUCTION 
-TODO -
+
+**Bank statement analyzer** predicts the worthiness of an individual and his/her credibility for a loan, after analyzing a considerable number of bank transactions, with the assistance of complex algorithm, text extraction, data categorization and smart analysis techniques.
 
 <a name="bsaProcessFlow"></a>
 ### 2. PROCESS FLOW
