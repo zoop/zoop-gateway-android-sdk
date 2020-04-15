@@ -18,6 +18,8 @@ import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.BSA_ERROR;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.BSA_SUCCESS;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ESIGN_ERROR;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ESIGN_SUCCESS;
+import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ITR_ERROR;
+import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ITR_SUCCESS;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_EMAIL;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_ENV;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
@@ -152,6 +154,22 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            else if (requestType.equalsIgnoreCase(ITR.getRequest())) {
+                if (resultCode == ITR_SUCCESS) {
+                    String responseString = data.getStringExtra(QT_RESULT);
+                    //handle success for itr
+                    tvResult.setText(responseString);
+                    Log.d("SDK test result bsa", requestType + " res " + responseString);
+                }
+                if (resultCode == ITR_ERROR) {
+                    String errorString = data.getStringExtra(QT_RESULT);
+                    //handle error for itr
+                    tvResult.setText(errorString);
+                    Log.d("SDK test error bsa", requestType + " err " + errorString);
+                }
+            }
+
         }
     }
 }
+//{"id":"10543aba-e09f-4ee0-9452-ee62584fdb2e","response_message":"Session expired or invalid session","response_code":"606"}
