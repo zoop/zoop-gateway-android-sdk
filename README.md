@@ -54,7 +54,7 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
    - [USER STAGES](#bsaUserStage)
    - [FAILURE RESPONSE BODY](#bsaStageFailure)
    
-## Zoop.one Income Tax Return(BSA) Gateway     
+## Zoop.one Income Tax Return(ITR) Gateway     
 1. [INTRODUCTION](#itrIntroduction)
 2. [PROCESS FLOW](#itrProcessFlow)
 3. [INITIATING A GATEWAY TRANSACTION](#itrInit)
