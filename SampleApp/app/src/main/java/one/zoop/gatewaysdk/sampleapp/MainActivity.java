@@ -27,10 +27,11 @@ import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.REQUEST_API;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.SDK_ERROR;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.BSA;
 import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.ESIGN;
+import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.ITR;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button btESign, btBsa;
+    private Button btESign, btBsa, btItr;
     private EditText etGatewayId;
     private String gatewayId, email, environment;
     private TextView tvResult;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         btESign = findViewById(R.id.btESign);
         btBsa = findViewById(R.id.btBsa);
         etGatewayId = findViewById(R.id.etGatewayId);
+        btItr = findViewById(R.id.btItr);
         tvResult = findViewById(R.id.tvResponse);
         environment = "QT_PP";
         btESign.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +81,23 @@ public class MainActivity extends AppCompatActivity {
                 gatewayIntent.putExtra(QT_TRANSACTION_ID, gatewayId);
                 gatewayIntent.putExtra(QT_ENV, environment);
                 gatewayIntent.putExtra(QT_REQUEST_TYPE, BSA.getRequest());
+                startActivityForResult(gatewayIntent, REQUEST_API);
+            }
+        });
+
+        btItr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
+                    gatewayId = etGatewayId.getText().toString();
+                } else {
+                    gatewayId = "10543aba-e09f-4ee0-9452-ee62584fdb2e";
+                }
+
+                Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
+                gatewayIntent.putExtra(QT_TRANSACTION_ID, gatewayId);
+                gatewayIntent.putExtra(QT_ENV, environment);
+                gatewayIntent.putExtra(QT_REQUEST_TYPE, ITR.getRequest());
                 startActivityForResult(gatewayIntent, REQUEST_API);
             }
         });
