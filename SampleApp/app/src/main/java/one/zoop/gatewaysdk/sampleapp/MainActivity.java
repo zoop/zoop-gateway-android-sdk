@@ -10,26 +10,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import one.zoop.sdkesign.esignlib.qtActivity.QTApiActivity;
-import one.zoop.sdkesign.esignlib.qtUtils.QtRequestType;
-import one.zoop.sdkesign.esignlib.qtUtils.QtStringUtils;
+import one.zoop.gatewaySDK.qtActivity.QTApiActivity;
+import one.zoop.gatewaySDK.qtUtils.QtRequestType;
+import one.zoop.gatewaySDK.qtUtils.QtStringUtils;
 
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.BSA_ERROR;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.BSA_SUCCESS;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ESIGN_ERROR;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ESIGN_SUCCESS;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ITR_ERROR;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ITR_SUCCESS;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_EMAIL;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_ENV;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_RESULT;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.REQUEST_API;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.SDK_ERROR;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.BSA;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.ESIGN;
-import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.ITR;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.BSA_ERROR;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.BSA_SUCCESS;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ESIGN_ERROR;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ESIGN_SUCCESS;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ITR_ERROR;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ITR_SUCCESS;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_EMAIL;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_ENV;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_RESULT;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.REQUEST_API;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.SDK_ERROR;
+import static one.zoop.gatewaySDK.qtUtils.QtRequestType.BSA;
+import static one.zoop.gatewaySDK.qtUtils.QtRequestType.ESIGN;
+import static one.zoop.gatewaySDK.qtUtils.QtRequestType.ITR;
+
 
 public class MainActivity extends AppCompatActivity {
 
