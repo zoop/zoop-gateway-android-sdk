@@ -11,7 +11,7 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
    - [REQUEST HEADERS](#esignRequestHeaders)
    - [REQUEST BODY PARAMS](#esignRequestbody)
    - [RESPONSE PARAMS](#esignResponseParams)
-4. [ADDING SDK (.AAR FILE) TO YOUR PROJECT](#esignAddSDK)
+4. [ADDING SDK TO YOUR PROJECT](#esignAddSDK)
 5. [CONFIGURING AND LAUNCHING THE E-SIGN SDK](#esignConfigureSDK)
    - [IMPORT FILES](#esignImportFiles)
    - [ADD STRINGS(IN STRINGS.XML FILE)](#esignAddString)
@@ -36,7 +36,7 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
    - [REQUEST HEADERS](#bsaRequestHeader)
    - [REQUEST BODY PARAMS](#bsaRequestBody)
    - [RESPONSE PARAMS](#bsaRespParam)
-4. [ADDING SDK (.AAR FILE) TO YOUR PROJECT](#bsaAddSDK)
+4. [ADDING SDK TO YOUR PROJECT](#bsaAddSDK)
 5. [CONFIGURING AND LAUNCHING THE BSA SDK](#bsaConfigureSDK)
    - [IMPORT FILES](#bsaImportFiles)
    - [CALL BSA SDK FROM THE ACTIVITY](#bsaCallSDK)
@@ -62,7 +62,7 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
    - [REQUEST HEADERS](#itrRequestHeader)
    - [REQUEST BODY PARAMS](#itrRequestBody)
    - [RESPONSE PARAMS](#itrRespParam)
-4. [ADDING SDK (.AAR FILE) TO YOUR PROJECT](#itrAddSDK)
+4. [ADDING SDK TO YOUR PROJECT](#itrAddSDK)
 5. [CONFIGURING AND LAUNCHING THE ITR SDK](#itrConfigureSDK)
    - [IMPORT FILES](#itrImportFiles)
    - [CALL ITR SDK FROM THE ACTIVITY](#itrCallSDK)
@@ -184,7 +184,14 @@ open the E-Sign SDK.
  **Note:**  A transaction is valid only for 30 mins after generation. 
 
 <a name="esignAddSDK"></a>
-### 4. ADDING SDK (.AAR FILE) TO YOUR PROJECT
+### 4. ADDING SDK TO YOUR PROJECT
+
+#### USING GRADLE
+Implement below line in your build.gradle file at app level under dependency section
+
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.0'
+     
+#### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
 
 1. Right click on your project and choose “Open Module Settings”.
@@ -203,16 +210,18 @@ module as a dependency.
 
 Import following files in your Activity:
     
-    import one.zoop.sdkesign.esignlib.qtActivity.QTApiActivity;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ESIGN_ERROR;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ESIGN_SUCCESS;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_EMAIL;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_ENV;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_RESULT;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.REQUEST_API;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.ESIGN;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ESIGN_ERROR;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ESIGN_SUCCESS;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_EMAIL;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_ENV;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_RESULT;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.REQUEST_API;
+     import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.SDK_ERROR;
+     import static one.zoop.gatewaySDK.qtUtils.QtRequestType.BSA;
+     import static one.zoop.gatewaySDK.qtUtils.QtRequestType.ESIGN;
+     import static one.zoop.gatewaySDK.qtUtils.QtRequestType.ITR;
 
 <a name="esignAddString"></a>
 #### 5.2 ADD STRINGS(IN STRINGS.XML FILE) 
@@ -720,16 +729,24 @@ open the BSA SDK.
     }
 
 <a name="bsaAddSDK"></a>
-### 4.ADDING SDK (.AAR FILE) TO YOUR PROJECT
+### 4.ADDING SDK TO YOUR PROJECT
 
+#### USING GRADLE
+Implement below line in your build.gradle file at app level under dependency section
+
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.0'
+     
+#### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
+
 1. Right click on your project and choose “Open Module Settings”.
 2. Click the “+” button in the top left to add a new module.
 3. Choose “Import .JAR or .AAR Package” and click the “Next” button.
 4. Find the AAR file using the ellipsis button (“…”) beside the “File name” field.
-5. Keep the app’s module selected and click on the Dependencies pane to add the new module as a dependency.
+5. Keep the app’s module selected and click on the Dependencies pane to add the new
+module as a dependency.
 6. Use the “+” button of the dependencies screen and choose “Module dependency”.
-7. Choose the module and click “OK”.
+7. Choose the module and click “OK”. 
 
 <a name="bsaConfigureSDK"></a>
 ### 5. CONFIGURING AND LAUNCHING THE BSA SDK 
@@ -737,15 +754,15 @@ To add SDK file as library in your Project, Perform the following Steps:
 #### 5.1 IMPORT FILES
 
     import one.zoop.sdkesign.esignlib.qtActivity.QTApiActivity;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.BSA_ERROR;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.BSA_SUCCESS;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_ENV;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_RESULT;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.REQUEST_API;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.SDK_ERROR;
-    import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.BSA;
+    import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.BSA_ERROR;
+    import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.BSA_SUCCESS;
+    import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_ENV;
+    import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
+    import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_RESULT;
+    import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
+    import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.REQUEST_API;
+    import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.SDK_ERROR;
+    import static one.zoop.gatewaySDK.qtUtils.QtRequestType.BSA;
  
 <a name="bsaCallSDK"></a> 
 #### 5.2 CALL BSA SDK FROM THE ACTIVITY
@@ -1052,14 +1069,22 @@ The above generated gateway transactionId is needed to make open gateway via And
 ```
 
 <a name="itrAddSDK"></a>
-### 4.ADDING SDK (.AAR FILE) TO YOUR PROJECT
+### 4.ADDING SDK TO YOUR PROJECT
 
+#### USING GRADLE
+Implement below line in your build.gradle file at app level under dependency section
+
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.0'
+     
+#### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
+
 1. Right click on your project and choose “Open Module Settings”.
 2. Click the “+” button in the top left to add a new module.
 3. Choose “Import .JAR or .AAR Package” and click the “Next” button.
 4. Find the AAR file using the ellipsis button (“…”) beside the “File name” field.
-5. Keep the app’s module selected and click on the Dependencies pane to add the new module as a dependency.
+5. Keep the app’s module selected and click on the Dependencies pane to add the new
+module as a dependency.
 6. Use the “+” button of the dependencies screen and choose “Module dependency”.
 7. Choose the module and click “OK”.
 
@@ -1070,15 +1095,15 @@ To add SDK file as library in your Project, Perform the following Steps:
 #### 5.1 IMPORT FILES
 
       import one.zoop.sdkesign.esignlib.qtActivity.QTApiActivity;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ITR_ERROR;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.ITR_SUCCESS;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_ENV;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_RESULT;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.REQUEST_API;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtConstantUtils.SDK_ERROR;
-      import static one.zoop.sdkesign.esignlib.qtUtils.QtRequestType.ITR;
+      import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ITR_ERROR;
+      import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ITR_SUCCESS;
+      import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_ENV;
+      import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
+      import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_RESULT;
+      import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
+      import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.REQUEST_API;
+      import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.SDK_ERROR;
+      import static one.zoop.gatewaySDK.qtUtils.QtRequestType.ITR;
       
 <a name="itrCallSDK"></a> 
 #### 5.2 CALL ITR SDK FROM THE ACTIVITY     
