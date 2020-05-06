@@ -1196,6 +1196,7 @@ Also the responses incase of successful transaction as well as response in case 
 | 604           | Unable to submit the OTP   |
 | 605           | Unable to parse ITR        |
 | 606           | Session expired or invalid |
+| 611           | Service unavailable        |
 
 <a name="itrWebhook"></a>
 ### 7. Handling Webhook Response
@@ -1496,5 +1497,9 @@ The webhook response will be sent to `webhook_url` provided at the init call. Wh
 | 604  | false    | Unable to submit the OTP   |
 | 605  | false    | Unable to parse ITR        |
 | 606  | false    | Session expired or invalid |
+| 609  | false    | Consent Denied             |
+| 610  | false    | Gateway Terminated         |
+| 611  | false    | Service unavailable        |
+
 
 In case you are facing any issues with integration please open a ticket on our [support portal](https://aadhaarapi.freshdesk.com/support/home)
