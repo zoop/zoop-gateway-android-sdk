@@ -1,6 +1,9 @@
 # zoop-gateway-android-sdk
 AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
 
+# Release notes
+New version updated checked for cookies at SDK level.
+
 # Table of Contents
 
 ## Zoop.one E-Sign Gateway.
@@ -189,7 +192,7 @@ open the E-Sign SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.0'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.2'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
