@@ -251,7 +251,7 @@ Add following strings in Strings.xml according to the application’s requiremen
     gatewayIntent.putExtra(QT_TRANSACTION_ID, GatewayId);
     gatewayIntent.putExtra(QT_EMAIL, Email); //Not Mandatory, can be added to pre-fill the Login Box
     gatewayIntent.putExtra(QT_CHECK_WV_VERSION, true); //Not Mandatory, can be added to check the min web view version by default it is false
-    gatewayIntent.putExtra(QT_WV_MIN_VERSION, 70); //Not Mandatory, can put check for min webview version by default is is 79
+    gatewayIntent.putExtra(QT_WV_MIN_VERSION, 70); //Not Mandatory, can put check for min webview version by default is is 70
     gatewayIntent.putExtra(QT_REQUEST_TYPE, ESIGN.getRequest());
     gatewayIntent.putExtra(QT_ENV, environment);
     startActivityForResult(gatewayIntent, REQUEST_API);
