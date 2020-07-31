@@ -1,6 +1,7 @@
 package one.zoop.gatewaysdk.sampleapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import one.zoop.gatewaySDK.qtActivity.QTApiActivity;
 import one.zoop.gatewaySDK.qtUtils.QtRequestType;
@@ -20,11 +26,13 @@ import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ESIGN_ERROR;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ESIGN_SUCCESS;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ITR_ERROR;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ITR_SUCCESS;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_CHECK_WV_VERSION;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_EMAIL;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_ENV;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_RESULT;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
+import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_WV_MIN_VERSION;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.REQUEST_API;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.SDK_ERROR;
 import static one.zoop.gatewaySDK.qtUtils.QtRequestType.BSA;
@@ -59,13 +67,15 @@ public class MainActivity extends AppCompatActivity {
                 if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
                     gatewayId = etGatewayId.getText().toString();
                 } else {
-                    gatewayId = "ab65bd57-a0fb-4b70-bbff-0682244a5633";
+                    gatewayId = "4ddc0b61-c7cb-41e1-8781-95c9f17a1219";
                 }
 
                 Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
                 gatewayIntent.putExtra(QT_TRANSACTION_ID, gatewayId);
                 gatewayIntent.putExtra(QT_ENV, environment);
                 gatewayIntent.putExtra(QT_EMAIL, email);   //not mandatory
+//                gatewayIntent.putExtra(QT_WV_MIN_VERSION, 85); //not mandatory
+//                gatewayIntent.putExtra(QT_CHECK_WV_VERSION, true); //not mandatory
                 gatewayIntent.putExtra(QT_REQUEST_TYPE, ESIGN.getRequest());
                 startActivityForResult(gatewayIntent, REQUEST_API);
             }
@@ -107,6 +117,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public String toPrettyFormat(String jsonString) {
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(jsonString).getAsJsonObject();
+        String statusCode = json.get("statusCode").getAsString();
+        if (statusCode.equals("427")) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN")));
+        }
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String prettyJson = gson.toJson(json);
+
+        return prettyJson;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -136,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
                     String errorString = data.getStringExtra(QT_RESULT);
                     //handle error for esign
                     tvResult.setText(errorString);
+                    toPrettyFormat(errorString);
                     Log.d("SDK test error ", requestType + " err " + errorString);
                 }
 
@@ -153,9 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     tvResult.setText(errorString);
                     Log.d("SDK test error bsa", requestType + " err " + errorString);
                 }
-            }
-
-            else if (requestType.equalsIgnoreCase(ITR.getRequest())) {
+            } else if (requestType.equalsIgnoreCase(ITR.getRequest())) {
                 if (resultCode == ITR_SUCCESS) {
                     String responseString = data.getStringExtra(QT_RESULT);
                     //handle success for itr

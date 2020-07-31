@@ -192,7 +192,7 @@ open the E-Sign SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.4'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.5'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -250,6 +250,8 @@ Add following strings in Strings.xml according to the application’s requiremen
     Intent gatewayIntent = new Intent(YourActivity.this, QTApiActivity.class);
     gatewayIntent.putExtra(QT_TRANSACTION_ID, GatewayId);
     gatewayIntent.putExtra(QT_EMAIL, Email); //Not Mandatory, can be added to pre-fill the Login Box
+    gatewayIntent.putExtra(QT_CHECK_WV_VERSION, true); //Not Mandatory, can be added to check the min web view version by default it is false
+    gatewayIntent.putExtra(QT_WV_MIN_VERSION, 70); //Not Mandatory, can put check for min webview version by default is is 79
     gatewayIntent.putExtra(QT_REQUEST_TYPE, ESIGN.getRequest());
     gatewayIntent.putExtra(QT_ENV, environment);
     startActivityForResult(gatewayIntent, REQUEST_API);
@@ -737,7 +739,7 @@ open the BSA SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.4'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.5'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -1077,7 +1079,7 @@ The above generated gateway transactionId is needed to make open gateway via And
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.4'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.5'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
