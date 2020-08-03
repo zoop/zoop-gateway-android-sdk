@@ -26,13 +26,11 @@ import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ESIGN_ERROR;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ESIGN_SUCCESS;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ITR_ERROR;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.ITR_SUCCESS;
-import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_CHECK_WV_VERSION;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_EMAIL;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_ENV;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_REQUEST_TYPE;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_RESULT;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_TRANSACTION_ID;
-import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.QT_WV_MIN_VERSION;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.REQUEST_API;
 import static one.zoop.gatewaySDK.qtUtils.QtConstantUtils.SDK_ERROR;
 import static one.zoop.gatewaySDK.qtUtils.QtRequestType.BSA;
@@ -67,15 +65,13 @@ public class MainActivity extends AppCompatActivity {
                 if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
                     gatewayId = etGatewayId.getText().toString();
                 } else {
-                    gatewayId = "4ddc0b61-c7cb-41e1-8781-95c9f17a1219";
+                    gatewayId = "60e1f30c-87c5-4e4d-b130-3220941eaf14";
                 }
 
                 Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
                 gatewayIntent.putExtra(QT_TRANSACTION_ID, gatewayId);
                 gatewayIntent.putExtra(QT_ENV, environment);
                 gatewayIntent.putExtra(QT_EMAIL, email);   //not mandatory
-//                gatewayIntent.putExtra(QT_WV_MIN_VERSION, 85); //not mandatory
-//                gatewayIntent.putExtra(QT_CHECK_WV_VERSION, true); //not mandatory
                 gatewayIntent.putExtra(QT_REQUEST_TYPE, ESIGN.getRequest());
                 startActivityForResult(gatewayIntent, REQUEST_API);
             }
