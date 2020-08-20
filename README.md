@@ -2,7 +2,15 @@
 AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
 
 # Release notes
-New version updated fixed issue as per new googgle developer policy and updating version name in Esign URL.
+New version updated added min webview version check if webview version is lower than 68 than sdk will throw an error with statusCode "427" and user should redirect to "https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN".
+
+# System Requirements
+
+ OS: Android
+ 
+ Android Version: Lollipop(22) and above
+ 
+ Webview Version: 68 and above
 
 # Table of Contents
 
@@ -192,7 +200,7 @@ open the E-Sign SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.5'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.6'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -250,8 +258,6 @@ Add following strings in Strings.xml according to the application’s requiremen
     Intent gatewayIntent = new Intent(YourActivity.this, QTApiActivity.class);
     gatewayIntent.putExtra(QT_TRANSACTION_ID, GatewayId);
     gatewayIntent.putExtra(QT_EMAIL, Email); //Not Mandatory, can be added to pre-fill the Login Box
-    gatewayIntent.putExtra(QT_CHECK_WV_VERSION, true); //Not Mandatory, can be added to check the min web view version by default it is false
-    gatewayIntent.putExtra(QT_WV_MIN_VERSION, 70); //Not Mandatory, can put check for min webview version by default is is 70
     gatewayIntent.putExtra(QT_REQUEST_TYPE, ESIGN.getRequest());
     gatewayIntent.putExtra(QT_ENV, environment);
     startActivityForResult(gatewayIntent, REQUEST_API);
@@ -739,7 +745,7 @@ open the BSA SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.5'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.6'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -1079,7 +1085,7 @@ The above generated gateway transactionId is needed to make open gateway via And
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.5'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.6'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
