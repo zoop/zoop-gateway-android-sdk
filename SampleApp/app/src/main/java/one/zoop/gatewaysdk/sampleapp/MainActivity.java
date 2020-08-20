@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
         etGatewayId = findViewById(R.id.etGatewayId);
         btItr = findViewById(R.id.btItr);
         tvResult = findViewById(R.id.tvResponse);
-        environment = "QT_PP";
+        environment = "QT_T";
         btESign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
                     gatewayId = etGatewayId.getText().toString();
                 } else {
-                    gatewayId = "60e1f30c-87c5-4e4d-b130-3220941eaf14";
+                    gatewayId = "f56275f2-725b-44cb-86da-098175424474";
                 }
 
                 Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
