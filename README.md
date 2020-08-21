@@ -2,7 +2,21 @@
 AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
 
 # Release notes
-New version updated added min webview version check if webview version is lower than 68 than sdk will throw an error with statusCode "427" and user should redirect to "https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN".
+
+### Previous Release (1.0.6)
+New version updated added min webview version check if webview version is lower then 68 than sdk will throw an error with statusCode "427" and user should be redirected to "https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN".
+
+### New Release (1.0.7)
+
+#### E-Sign
+1. INIT API Call Changed to {{aadhaar_url}}/esign/v2/init
+   - PreProd(aadhaar_url): https://preprod.aadhaarapi.com
+   - Prod(aadhaar_url): https://prod.aadhaarapi.com
+
+2. No Email required for login.
+
+3. A link to download the copy of the PDF is sent to signer's phone number instead of the email.
+
 
 # System Requirements
 
@@ -133,7 +147,7 @@ the gateway.
 
 <a name="esignInitUrl"></a>
 #### 3.1 INIT URL: 
-    URL: POST {{base_url}}/gateway/esign/init/
+    URL: POST {{base_url}}/esign/v2/init
  **{{base_url}}**
  
  **For Pre-Production Environment:** https://preprod.aadhaarapi.com
@@ -156,7 +170,8 @@ the gateway.
     "document": {
       "data”: "<<document data in based64 format>>",
       "type": "<<pdf is only supported for now>>",
-      "info”: "<<information about the document – minimum length 15>>"
+      "info”: "<<information about the document – minimum length 15>>",
+      "signPageNumber": 1,
     },
     "signerName": "<<name of the signer, must be same as on Aadhaar Card>>",
     "signerCity": "<<city of the signer, preferably as mentioned in Aadhaar>>",
@@ -186,7 +201,9 @@ the gateway.
     "<<document ID>>"
     ],
     "request version": "2.0",
-    "createdAt": "<<timestamp>>"
+    "createdAt": "<<timestamp>>",
+    "agreement": "this is a static agreement",
+    "webhook_security_key": "<<key>>"
     } 
 
 The above generated gateway transactionId has to be made available in your android project to
@@ -200,7 +217,7 @@ open the E-Sign SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.6'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.7'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -254,17 +271,14 @@ Add following strings in Strings.xml according to the application’s requiremen
 #### 5.3 CALL E-SIGN SDK FROM THE ACTIVITY  
 **Use the Intent Function to call the E-Sign SDK from your Activity as shown below:**
 
-    String GatewayId, Email, environment;
+    String GatewayId, environment;
     Intent gatewayIntent = new Intent(YourActivity.this, QTApiActivity.class);
     gatewayIntent.putExtra(QT_TRANSACTION_ID, GatewayId);
-    gatewayIntent.putExtra(QT_EMAIL, Email); //Not Mandatory, can be added to pre-fill the Login Box
     gatewayIntent.putExtra(QT_REQUEST_TYPE, ESIGN.getRequest());
     gatewayIntent.putExtra(QT_ENV, environment);
     startActivityForResult(gatewayIntent, REQUEST_API);
 Params:
 GatewayId: “Transaction Id generated from your backend must be passed here”
-
-Email: “Add your end user’s email here to pre-fill the login box”
 
 environment: for pre-prod use "QT_PP" and for prod use "QT_P"
 
@@ -273,8 +287,6 @@ Set the QT_REQUEST_TYPE as ESIGN.getRequest() for e-sign based transaction.
 Example:
 
 GatewayId = "a051231e-ddc7-449d-8635-bb823485a20d";
-
-Email = “youremail@gmail.com";
 
 environment = "QT_PP";
 
@@ -745,7 +757,7 @@ open the BSA SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.6'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.7'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -1085,7 +1097,7 @@ The above generated gateway transactionId is needed to make open gateway via And
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.6'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.7'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
