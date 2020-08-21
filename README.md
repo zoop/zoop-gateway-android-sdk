@@ -4,7 +4,7 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
 # Release notes
 
 ### Previous Release (1.0.6)
-New version updated added min webview version check if webview version is lower then 68 than sdk will throw an error with statusCode "427" and user should be redirected to "https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN".
+New version updated added min webview version check if webview version is lower, then sdk will throw an error with statusCode "427" and user should be redirected to "https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN".
 
 ### New Release (1.0.7)
 
