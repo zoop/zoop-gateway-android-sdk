@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         etGatewayId = findViewById(R.id.etGatewayId);
         btItr = findViewById(R.id.btItr);
         tvResult = findViewById(R.id.tvResponse);
-        environment = "QT_T";
+        environment = "QT_PP";
         btESign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
