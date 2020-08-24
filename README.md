@@ -31,6 +31,7 @@ New version updated added min webview version check if webview version is lower,
 ## Zoop.one E-Sign Gateway.
 1. [INTRODUCTION](#esignIntroduction)
 2. [PROCESS FLOW](#esignProcessFlow)
+   - [END USER FLOW](#esignEndUserFlow)
 3. [INITIATING A GATEWAY TRANSACTION FOR E-SIGN](#esignInit)
    - [INIT URL](#esignInitUrl)
    - [REQUEST HEADERS](#esignRequestHeaders)
@@ -139,7 +140,24 @@ response JSON, that can be used by the client to process the flow further.
 8. Client will also have a REST API available to pull the status of a gateway transaction from
 backend and reason of failure. 
 
+<a name="esignEndUserFlow"></a>
+#### 2.1 END USER FLOW:
+1. Customer Login [ Phone + OTP ]
+2. Document displayed to customer. (Draggable signature option can be turned on via gateway config or
+   signPageNumber and coordinates can be fixed during initiation call)
+3. Customer chooses Mode of Authentication for performing E-Sign
+4. Customer is redirected to ESP’s Auth portal where EKYC is performed after entering either Aadhaar number
+   or Virtual Id.
+5. After successful EKYC customer is displayed Sign details received and customer’s consent is taken to
+   attach signature to the document and share a copy with requesting organization.
+6. On success, customer is provided with an option to download the signed file. Also, a download URL is sent
+   to customer’s phone number and responseURL which is valid for 48 hours.
+7. On failure during request to ESP, customer is displayed an error code and error message. Same error details
+   are sent to the responseURL.
+8. End Customer can validate the signature on PDF by opening the PDF in acrobat reader and Developer can
+   programmatically fetch certificate from PDF to ensure validity of certificate if required.
 <a name="esignInit"></a>
+
 ### 3. INITIATING A GATEWAY TRANSACTION FOR E-SIGN[IP WHITELISTED IN PRODUCTION] 
 To initiate a gateway transaction a REST API call has to be made to backend. This call will
 generate a **Gateway Transaction Id** which needs to be passed to the frontend web-sdk to launch
@@ -573,7 +591,7 @@ our SDKs.
 In case the response JSON is lost at frontend, there is an option to pull the transaction status from
 backend using the same Esign Transaction Id. 
 #### 9.1 URL
-    GET {{base_url}}/gateway/esign/:esign_transaction_id/fetch/ 
+    GET {{base_url}}/esign/v2/<<esign_transaction_id>>/fetch/ 
     
 <a name="esignStatusResp"></a>    
 #### 9.2 RESPONSE PARAMS:
