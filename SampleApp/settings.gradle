@@ -1,2 +1,2 @@
-include ':gatewaySDK-releaseV1.0.7'
+include ':gatewaySDK-releaseV1.0.8'
 include ':app'
