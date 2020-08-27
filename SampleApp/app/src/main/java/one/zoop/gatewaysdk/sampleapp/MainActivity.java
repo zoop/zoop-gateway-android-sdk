@@ -1,6 +1,7 @@
 package one.zoop.gatewaysdk.sampleapp;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import one.zoop.gatewaySDK.qtActivity.QTApiActivity;
 import one.zoop.gatewaySDK.qtUtils.QtRequestType;
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
                     gatewayId = etGatewayId.getText().toString();
                 } else {
-                    gatewayId = "ab65bd57-a0fb-4b70-bbff-0682244a5633";
+                    gatewayId = "f56275f2-725b-44cb-86da-098175424474";
                 }
 
                 Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
@@ -107,6 +113,19 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public String toPrettyFormat(String jsonString) {
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(jsonString).getAsJsonObject();
+        String statusCode = json.get("statusCode").getAsString();
+        if (statusCode.equals("427")) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN")));
+        }
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String prettyJson = gson.toJson(json);
+
+        return prettyJson;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -136,6 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     String errorString = data.getStringExtra(QT_RESULT);
                     //handle error for esign
                     tvResult.setText(errorString);
+                    toPrettyFormat(errorString);
                     Log.d("SDK test error ", requestType + " err " + errorString);
                 }
 
@@ -153,9 +173,7 @@ public class MainActivity extends AppCompatActivity {
                     tvResult.setText(errorString);
                     Log.d("SDK test error bsa", requestType + " err " + errorString);
                 }
-            }
-
-            else if (requestType.equalsIgnoreCase(ITR.getRequest())) {
+            } else if (requestType.equalsIgnoreCase(ITR.getRequest())) {
                 if (resultCode == ITR_SUCCESS) {
                     String responseString = data.getStringExtra(QT_RESULT);
                     //handle success for itr

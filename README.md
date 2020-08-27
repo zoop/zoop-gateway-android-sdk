@@ -2,13 +2,36 @@
 AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
 
 # Release notes
-New version updated fixed issue as per new googgle developer policy and updating version name in Esign URL.
+
+### Previous Release (1.0.6)
+New version updated added min webview version check if webview version is lower, then sdk will throw an error with statusCode "427" and user should be redirected to "https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN".
+
+### New Release (1.0.8)
+
+#### E-Sign
+1. INIT API Call Changed to {{aadhaar_url}}/esign/v3/init
+   - PreProd(aadhaar_url): https://preprod.aadhaarapi.com
+   - Prod(aadhaar_url): https://prod.aadhaarapi.com
+
+2. No Email required for login.
+
+3. A link to download the copy of the PDF is sent to signer's phone number instead of the email.
+
+
+# System Requirements
+
+ OS: Android
+ 
+ Android Version: Lollipop(22) and above
+ 
+ Webview Version: 68 and above
 
 # Table of Contents
 
 ## Zoop.one E-Sign Gateway.
 1. [INTRODUCTION](#esignIntroduction)
 2. [PROCESS FLOW](#esignProcessFlow)
+   - [END USER FLOW](#esignEndUserFlow)
 3. [INITIATING A GATEWAY TRANSACTION FOR E-SIGN](#esignInit)
    - [INIT URL](#esignInitUrl)
    - [REQUEST HEADERS](#esignRequestHeaders)
@@ -117,7 +140,24 @@ response JSON, that can be used by the client to process the flow further.
 8. Client will also have a REST API available to pull the status of a gateway transaction from
 backend and reason of failure. 
 
+<a name="esignEndUserFlow"></a>
+#### 2.1 END USER FLOW:
+1. Customer Login [ Phone + OTP ]
+2. Document displayed to customer. (Draggable signature option can be turned on via gateway config or
+   signPageNumber and coordinates can be fixed during initiation call)
+3. Customer chooses Mode of Authentication for performing E-Sign
+4. Customer is redirected to ESP’s Auth portal where EKYC is performed after entering either Aadhaar number
+   or Virtual Id.
+5. After successful EKYC customer is displayed Sign details received and customer’s consent is taken to
+   attach signature to the document and share a copy with requesting organization.
+6. On success, customer is provided with an option to download the signed file. Also, a download URL is sent
+   to customer’s phone number and responseURL which is valid for 48 hours.
+7. On failure during request to ESP, customer is displayed an error code and error message. Same error details
+   are sent to the responseURL.
+8. End Customer can validate the signature on PDF by opening the PDF in acrobat reader and Developer can
+   programmatically fetch certificate from PDF to ensure validity of certificate if required.
 <a name="esignInit"></a>
+
 ### 3. INITIATING A GATEWAY TRANSACTION FOR E-SIGN[IP WHITELISTED IN PRODUCTION] 
 To initiate a gateway transaction a REST API call has to be made to backend. This call will
 generate a **Gateway Transaction Id** which needs to be passed to the frontend web-sdk to launch
@@ -125,7 +165,7 @@ the gateway.
 
 <a name="esignInitUrl"></a>
 #### 3.1 INIT URL: 
-    URL: POST {{base_url}}/gateway/esign/init/
+    URL: POST {{base_url}}/esign/v3/init
  **{{base_url}}**
  
  **For Pre-Production Environment:** https://preprod.aadhaarapi.com
@@ -148,13 +188,13 @@ the gateway.
     "document": {
       "data”: "<<document data in based64 format>>",
       "type": "<<pdf is only supported for now>>",
-      "info”: "<<information about the document – minimum length 15>>"
+      "info”: "<<information about the document – minimum length 15>>",
+      "signPageNumber": 1,
     },
     "signerName": "<<name of the signer, must be same as on Aadhaar Card>>",
     "signerCity": "<<city of the signer, preferably as mentioned in Aadhaar>>",
     "purpose": "Purpose of transaction, Mandatory",
     "responseURL":"<<POST[REST] URL to which response is to be sent after the transaction is complete>>",
-    "version": "2.0 <<current E-sign version>>"
     } 
   
 | Parameters | Description/Values | Checks |
@@ -168,7 +208,6 @@ the gateway.
 | signerCity | Place of signing (Current City/As mentioned in Aadhaar) |   |
 | purpose | Purpose of document signature | Mandate as per norms. Will be used to generate consent text and logged in DB. |
 |responseURL | POST API URL where the Agency receives the response after the e-signing is completed. | A valid POST API URL,  else response back to your server will fail.| 
-| version | Current E-sign version (2.0) | Must be 2.0 |
 
 <a name="esignResponseParams"></a>
 #### 3.4 RESPONSE PARAMS:
@@ -177,14 +216,15 @@ the gateway.
     "docs": [
     "<<document ID>>"
     ],
-    "request version": "2.0",
-    "createdAt": "<<timestamp>>"
+    "createdAt": "<<timestamp>>",
+    "agreement": "this is a static agreement",
+    "webhook_security_key": "<<key>>"
     } 
 
 The above generated gateway transactionId has to be made available in your android project to
 open the E-Sign SDK.
 
- **Note:**  A transaction is valid only for 30 mins after generation. 
+ **Note:**  A transaction is valid only for 45 mins after generation. 
 
 <a name="esignAddSDK"></a>
 ### 4. ADDING SDK TO YOUR PROJECT
@@ -192,7 +232,7 @@ open the E-Sign SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.4'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.8'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -246,17 +286,14 @@ Add following strings in Strings.xml according to the application’s requiremen
 #### 5.3 CALL E-SIGN SDK FROM THE ACTIVITY  
 **Use the Intent Function to call the E-Sign SDK from your Activity as shown below:**
 
-    String GatewayId, Email, environment;
+    String GatewayId, environment;
     Intent gatewayIntent = new Intent(YourActivity.this, QTApiActivity.class);
     gatewayIntent.putExtra(QT_TRANSACTION_ID, GatewayId);
-    gatewayIntent.putExtra(QT_EMAIL, Email); //Not Mandatory, can be added to pre-fill the Login Box
     gatewayIntent.putExtra(QT_REQUEST_TYPE, ESIGN.getRequest());
     gatewayIntent.putExtra(QT_ENV, environment);
     startActivityForResult(gatewayIntent, REQUEST_API);
 Params:
 GatewayId: “Transaction Id generated from your backend must be passed here”
-
-Email: “Add your end user’s email here to pre-fill the login box”
 
 environment: for pre-prod use "QT_PP" and for prod use "QT_P"
 
@@ -265,8 +302,6 @@ Set the QT_REQUEST_TYPE as ESIGN.getRequest() for e-sign based transaction.
 Example:
 
 GatewayId = "a051231e-ddc7-449d-8635-bb823485a20d";
-
-Email = “youremail@gmail.com";
 
 environment = "QT_PP";
 
@@ -553,7 +588,7 @@ our SDKs.
 In case the response JSON is lost at frontend, there is an option to pull the transaction status from
 backend using the same Esign Transaction Id. 
 #### 9.1 URL
-    GET {{base_url}}/gateway/esign/:esign_transaction_id/fetch/ 
+    GET {{base_url}}/esign/v3/<<esign_transaction_id>>/fetch/ 
     
 <a name="esignStatusResp"></a>    
 #### 9.2 RESPONSE PARAMS:
@@ -737,7 +772,7 @@ open the BSA SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.4'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.8'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -1077,7 +1112,7 @@ The above generated gateway transactionId is needed to make open gateway via And
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.4'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.8'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
