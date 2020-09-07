@@ -3,10 +3,7 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
 
 # Release notes
 
-### Previous Release (1.0.6)
-New version updated added min webview version check if webview version is lower, then sdk will throw an error with statusCode "427" and user should be redirected to "https://play.google.com/store/apps/details?id=com.google.android.webview&hl=en_IN".
-
-### New Release (1.0.8)
+### Previous Release (1.0.8)
 
 #### E-Sign
 1. INIT API Call Changed to {{aadhaar_url}}/esign/v3/init
@@ -17,6 +14,8 @@ New version updated added min webview version check if webview version is lower,
 
 3. A link to download the copy of the PDF is sent to signer's phone number instead of the email.
 
+### New Release(1.0.9)
+Few bug fixes in E-sign
 
 # System Requirements
 
@@ -232,7 +231,7 @@ open the E-Sign SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.8'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.9'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -772,7 +771,7 @@ open the BSA SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.8'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.9'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -1112,7 +1111,7 @@ The above generated gateway transactionId is needed to make open gateway via And
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.8'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.9'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
