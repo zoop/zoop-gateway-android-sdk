@@ -99,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
                 if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
                     gatewayId = etGatewayId.getText().toString();
                 } else {
-                    gatewayId = "10543aba-e09f-4ee0-9452-ee62584fdb2e";
+                    gatewayId = "5f8690b62b0f3b0012b770cb";
                 }
 
                 Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);
                 gatewayIntent.putExtra(QT_TRANSACTION_ID, gatewayId);
-                gatewayIntent.putExtra(QT_ENV, environment);
+                gatewayIntent.putExtra(QT_ENV, "QT_PP");
                 gatewayIntent.putExtra(QT_REQUEST_TYPE, ITR.getRequest());
                 startActivityForResult(gatewayIntent, REQUEST_API);
             }
