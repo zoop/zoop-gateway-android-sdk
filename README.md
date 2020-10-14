@@ -89,7 +89,7 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
    - [USER STAGES](#bsaUserStage)
    - [FAILURE RESPONSE BODY](#bsaStageFailure)
    
-## Zoop.one Income Tax Department(ITD) Gateway (Beta)
+## Zoop.one Income Tax Department V2.0(ITD) Gateway (Beta)
 1. [INTRODUCTION](#itrIntroduction)
 2. [PROCESS FLOW](#itrProcessFlow)
 3. [INITIATING A GATEWAY TRANSACTION](#itrInit)
@@ -1021,7 +1021,7 @@ After creating an initialization request successfully you can check at which sta
     }
 
 
-## Zoop.one Income Tax Department(ITD) Gateway(Beta)
+## Zoop.one Income Tax Department V2.0(ITD) Gateway(Beta)
 
 <a name="itrIntroduction"></a>
 ### 1. INTRODUCTION
