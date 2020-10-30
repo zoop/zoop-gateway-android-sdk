@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 if (QtStringUtils.isNotNullOrEmpty(etGatewayId.getText().toString())) {
                     gatewayId = etGatewayId.getText().toString();
                 } else {
-                    gatewayId = "ac5d3c26-60c1-4978-a429-30c55e971f81";
+                    gatewayId = "f2f140eb-facd-4a99-95f6-68edaf2af4b4";
                 }
 
                 Intent gatewayIntent = new Intent(MainActivity.this, QTApiActivity.class);

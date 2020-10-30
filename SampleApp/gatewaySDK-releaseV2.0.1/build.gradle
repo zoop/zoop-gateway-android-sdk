@@ -1,0 +1,2 @@
+configurations.maybeCreate("default")
+artifacts.add("default", file('gatewaySDK-releaseV2.0.1.aar'))
