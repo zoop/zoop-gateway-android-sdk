@@ -3,7 +3,7 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
 
 # Release notes
 
-### Previous Release (1.0.9)
+### Previous Release (1.0.9 & 2.0.0)
 
 #### E-Sign
 1. INIT API Call Changed to {{aadhaar_url}}/esign/v3/init
@@ -16,7 +16,6 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
 
 4. Few bug fixes in E-sign
 
-### New Release(2.0.0)
 
 #### ITD
 1.) New version of ITD(v2)
@@ -26,6 +25,10 @@ AadhaarAPI | Zoop Android SDK for E-sign and Bank Statement Analysis Gateway
    - Prod(aadhaar_url): https://prod.aadhaarapi.com
    
 3.) PAN Card number is masked.  
+
+### New Release (2.0.1)
+#### E-Sign
+1. App Theme bug fixed in esign
 
 # System Requirements
 
@@ -247,7 +250,7 @@ open the E-Sign SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.9'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:2.0.1'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -787,7 +790,7 @@ open the BSA SDK.
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:1.0.9'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:2.0.1'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
@@ -1219,7 +1222,7 @@ After successful response you will receive the following JSON
 #### USING GRADLE
 Implement below line in your build.gradle file at app level under dependency section
 
-     implementation 'one.zoop.gatewaySDK:gatewaySDK:2.0.0'
+     implementation 'one.zoop.gatewaySDK:gatewaySDK:2.0.1'
      
 #### USING AAR FILE     
 To add SDK file as library in your Project, Perform the following Steps:
